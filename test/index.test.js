@@ -3,7 +3,7 @@ const request = require('supertest'),
     assert = require('chai').assert,
     should = require('chai').should();
 
-const data = require('../dataResult.json');
+const data = require('./dataResult.json');
 
 describe('Stranger Things Code Challenge', function () {
 
