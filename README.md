@@ -9,3 +9,5 @@
 3. `npm i`
 
 4. `npm start`
+
+5. `open browser and navigate to localhost:3003`
