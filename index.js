@@ -1,25 +1,22 @@
-const express = require('express')
-const app = express();
-const fetch = require("node-fetch");
+const express = require('express'),
+    app = express(),
+    fetch = require("node-fetch"),
+    port = 3003;
 
-
-const port = process.env.PORT || 3003;
-
-let arr = [];
-let showId = '2993';
-let totalSeconds = 0;
-let numberOfEpisodes = 0;
-let numberOfSeasons = 3;
-let averageEpisodesPerSeason = 0;
-let firstSentence = '';
-let episodes = [];
-let result;
-
-let roundedAverageEpisodesPerSeason = 0;
+let arr = [],
+    showId = '2993',
+    totalSeconds,
+    numberOfEpisodes,
+    numberOfSeasons = 3,
+    averageEpisodesPerSeason,
+    roundedAverageEpisodesPerSeason,
+    firstSentence = '',
+    episodes = [],
+    result;
 
 function calculateTotalDurationSec() {
     arr.forEach((item) => {
-        totalSeconds += item.runtime;
+        totalSeconds += (item.runtime * 60);
     })
 }
 
@@ -29,24 +26,26 @@ function calculateAverageEpisodePerSeason() {
     roundedAverageEpisodesPerSeason = Math.round(averageEpisodesPerSeason * 10) / 10;
 }
 
-
 function createEpisodeObj() {
 
+    // short title
     arr.forEach(function (item) {
-        let epiName = item.name;
-        let split = epiName.split(': ');
-        let shortTitle = split[1];
-
+        let epiName = item.name,
+            split = epiName.split(': '),
+            shortTitle = split[1];
+        // date
         function Epoch(date) {
             return Math.round(new Date(date).getTime() / 1000.0);
         }
 
+        // summary
         let summary = item.summary;
 
         if (summary != null) {
             if (summary.length > 1) {
-                let splitSummary = summary.split('.');
-                let multiSplit = splitSummary[0].split('>');
+                let splitSummary = summary.split('.'),
+                    multiSplit = splitSummary[0].split('>');
+
                 firstSentence = multiSplit[1];
 
                 if (!firstSentence.endsWith('.')) {
@@ -57,10 +56,12 @@ function createEpisodeObj() {
             firstSentence = 'n/a'
         }
 
-        let sequence = `S${item.season}E${item.number}`;
-        let id = item.id;
-        let airTimeStamp = Epoch(item.airstamp);
+        // sequence
+        let sequence = `S${item.season}E${item.number}`,
+            id = item.id,
+            airTimeStamp = Epoch(item.airstamp);
 
+        // episode object
         const episodeObj = {
             [id]: {
                 "sequenceNumber": sequence,
@@ -69,6 +70,7 @@ function createEpisodeObj() {
                 "shortSummary": firstSentence
             }
         }
+        // push to episodes array
         episodes.push(episodeObj);
     })
 
@@ -86,6 +88,7 @@ function createEpisodeObj() {
     console.log(result);
 }
 
+// fetch data + create json
 const getData = fetch(`http://api.tvmaze.com/shows/${showId}/episodes`)
     .then((res) => res.json())
     .then((data) => {
@@ -98,6 +101,7 @@ const getData = fetch(`http://api.tvmaze.com/shows/${showId}/episodes`)
     .then(() => createEpisodeObj())
     .catch((err) => console.log(`Error: ${err}`));
 
+// GET route for json
 app.get('/', (req, res) => {
     res.json(result).status(200)
 })
