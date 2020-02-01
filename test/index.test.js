@@ -1,10 +1,9 @@
-const request = require('supertest')
-const app = require('../index')
-var assert = require('chai').assert;
-var should = require('chai').should();
+const request = require('supertest'),
+    app = require('../index'),
+    assert = require('chai').assert,
+    should = require('chai').should();
 
-var data = require('../dataResult.json');
-
+const data = require('../dataResult.json');
 
 describe('Stranger Things Code Challenge', function () {
 
@@ -21,7 +20,7 @@ describe('Stranger Things Code Challenge', function () {
         assert.equal(data[2993].averageEpisodesPerSeason, 8.7);
     });
 
-    it('has proper JSON structure', function () {
+    it('has correct JSON structure', function () {
         should.exist(data[2993]);
         should.exist(data[2993].totalDurationSec);
         should.exist(data[2993].averageEpisodesPerSeason);
