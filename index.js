@@ -5,7 +5,7 @@ const express = require('express'),
 
 let arr = [],
     showId = '2993',
-    totalSeconds,
+    totalSeconds = 0,
     numberOfEpisodes,
     numberOfSeasons = 3,
     averageEpisodesPerSeason,
@@ -16,7 +16,8 @@ let arr = [],
 
 function calculateTotalDurationSec() {
     arr.forEach((item) => {
-        totalSeconds += (item.runtime * 60);
+        let seconds = (item.runtime * 60)
+        totalSeconds += seconds;
     })
 }
 
