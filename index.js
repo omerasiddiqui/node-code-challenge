@@ -33,12 +33,13 @@ function createEpisodeObj() {
         let epiName = item.name,
             split = epiName.split(': '),
             shortTitle = split[1];
-        // date
+        
+    // date
         function Epoch(date) {
             return Math.round(new Date(date).getTime() / 1000.0);
         }
 
-        // summary
+    // summary
         let summary = item.summary;
 
         if (summary != null) {
@@ -56,12 +57,12 @@ function createEpisodeObj() {
             firstSentence = 'n/a'
         }
 
-        // sequence
+    // sequence
         let sequence = `S${item.season}E${item.number}`,
             id = item.id,
             airTimeStamp = Epoch(item.airstamp);
 
-        // episode object
+    // episode object
         const episodeObj = {
             [id]: {
                 "sequenceNumber": sequence,
@@ -70,7 +71,7 @@ function createEpisodeObj() {
                 "shortSummary": firstSentence
             }
         }
-        // push to episodes array
+    // push to episodes array
         episodes.push(episodeObj);
     })
 
