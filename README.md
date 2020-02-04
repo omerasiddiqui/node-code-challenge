@@ -1,6 +1,6 @@
 # Stranger Things Code Challenge
 
-**To View:**
+**To View Result:**
 
 1. `git clone https://github.com/omerasiddiqui/node-code-challenge.git`
 
