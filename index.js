@@ -1,7 +1,7 @@
 const express = require('express'),
     app = express(),
     fetch = require("node-fetch"),
-    port = 3003;
+    port = 3001;
 
 let arr = [],
     showId = '2993',
@@ -45,10 +45,16 @@ function createEpisodeObj() {
 
         if (summary != null) {
             if (summary.length > 1) {
-                let splitSummary = summary.split('.'),
-                    multiSplit = splitSummary[0].split('>');
+                let splitSummary = summary.split('>'),
+                    multiSplit = splitSummary[1].split('.');
 
-                firstSentence = multiSplit[1];
+                    let newSplitUp, sentence;
+                    if(multiSplit[0] == "Dr" || multiSplit[0] == "Mr" || multiSplit[0] == "Mrs") {
+                        newSplitUp = multiSplit[0].concat('', '.')
+                        sentence = newSplitUp.concat(multiSplit[1])
+                        firstSentence = sentence;
+                    }
+
 
                 if (!firstSentence.endsWith('.')) {
                     firstSentence = firstSentence.concat('', '.');
@@ -95,6 +101,8 @@ const getData = fetch(`http://api.tvmaze.com/shows/${showId}/episodes`)
     .then((res) => res.json())
     .then((data) => {
         arr.push(...data);
+        data1 = data;
+        console.log(data);
         calculateTotalDurationSec();
         calculateAverageEpisodePerSeason();
     })
