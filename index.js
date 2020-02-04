@@ -95,10 +95,8 @@ const getData = fetch(`http://api.tvmaze.com/shows/${showId}/episodes`)
     .then((res) => res.json())
     .then((data) => {
         arr.push(...data);
-
         calculateTotalDurationSec();
         calculateAverageEpisodePerSeason();
-
     })
     .then(() => createEpisodeObj())
     .catch((err) => console.log(`Error: ${err}`));

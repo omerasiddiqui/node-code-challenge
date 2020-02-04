@@ -9,7 +9,7 @@ describe('Stranger Things Code Challenge', function () {
 
     it("successfully sends the json response", function (done) {
         request(app).get('/')
-            .expect(200, done)
+            .expect(200, done);
     })
 
     it('has the correct duration', function () {
